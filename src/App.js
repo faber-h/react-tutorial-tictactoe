@@ -1,30 +1,41 @@
-// React 컴포넌트 아키텍처 사용 -> 중복된 코드 피하기
-// Board와 Square 컴포넌트는 반드시 대문자로 시작해야 함
-// { value } : props
-// props를 사용하여 부모 컴포넌트에서 자식 컴포넌트로 전달
-// JSX에서 JavaScript로 탈출하려면 중괄호 필요
-function Square({ value }) {
-  return <button className="square">{value}</button>;
+// React 컴포넌트에서는 useState 함수 제공
+// useState : 호출하여 무언가를 "기억"할 수 있는 함수
+import { useState } from 'react';
+
+function Square() {
+  // value : 값을 저장
+  // setValue : 값을 변경하는데 사용
+  // useState(null) : null - state 변수의 초기값으로 사용
+  const [value, setValue] = useState(null);
+
+  function handleClick() {
+    setValue("X");
+  }
+
+  // onClick 핸들러에서 set 함수를 호출함으로써 React <button>이 클릭될 때마다 Square를 다시 렌더링
+  // set함수 호출 시 React는 그 안에 자식 컴포넌트 자동 업데이트
+  return <button className="square" onClick={handleClick}>{value}</button>;
 }
 
+// 각 Square에는 고유한 state가 존재
+// 각각의 value는 다른 사각형과 완전히 독립적
 export default function Board() {
-  // JSX 문법을 사용하여 Square 컴포넌트 렌더링
   return (
     <>
       <div className="board-row">
-        <Square value="1" />
-        <Square value="2" />
-        <Square value="3" />
+        <Square />
+        <Square />
+        <Square />
       </div>
       <div className="board-row">
-        <Square value="4" />
-        <Square value="5" />
-        <Square value="6" />
+        <Square />
+        <Square />
+        <Square />
       </div>
       <div className="board-row">
-        <Square value="7" />
-        <Square value="8" />
-        <Square value="9" />
+        <Square />
+        <Square />
+        <Square />
       </div>
     </>
   );
