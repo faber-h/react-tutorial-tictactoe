@@ -40,21 +40,23 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true);
+  // 중복되는 state 피하기
+  // currentMove가 짝수일 때는 xIsNext === true, currentMove가 홀수일 때는 xIsNext === false
+  // currentMove의 값을 알고 있다면 언제나 xIsNext가 무엇인지 알아낼 수 있으므로
+  // state 저장 단순화
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-    setXIsNext(!xIsNext);
   }
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
-    setXIsNext(nextMove % 2 === 0);
   }
 
   // key는 React가 각 컴포넌트를 구별할 수 있도록 하여 컴포넌트가 다시 렌더링 될 때 React가 해당 컴포넌트의 state를 유지할 수 있게 함
